@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsOptional, IsPositive } from 'class-validator';
+import { IsIn, IsOptional, IsPositive } from 'class-validator';
 
 export class PaginationQueryDto{
 
@@ -13,4 +13,13 @@ export class PaginationQueryDto{
     @IsPositive()
     @Type(()=>Number)
     page?: number;
+
+    @IsOptional()
+    @IsIn(['createdAt','dueDate'])
+    sortBy?: string;
+
+    @IsOptional()
+    @IsIn(['asc','desc'])
+    sortOrder?: 'asc' | 'desc';
+
 }

@@ -19,11 +19,18 @@ export class TasksService {
   }
 
   async findAll(paginationQueryDto: PaginationQueryDto): Promise<Task[]> {
-    
-    const {page=1,limit=10}=paginationQueryDto;
+
+    const {
+        page=1,
+        limit=10,
+        sortBy='createdAt',
+        sortOrder='desc'
+    }=paginationQueryDto;
     const skip=(page - 1) * limit;
 
-    return this.taskModel.find()
+    return this.taskModel
+        .find()
+        .sort({[sortBy]: sortOrder === 'asc' ? 1 : -1})
         .skip(skip)
         .limit(limit)
         .exec();
