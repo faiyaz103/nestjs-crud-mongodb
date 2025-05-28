@@ -4,6 +4,7 @@ import { UpdateTaskDto } from './dto/update-task.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, isValidObjectId } from 'mongoose';
 import { Task, TaskDocument } from '../schemas/task.schema';
+import { PaginationQueryDto } from '../common/pagination/dto/pagination-query.dto';
 
 @Injectable()
 export class TasksService {
@@ -17,9 +18,15 @@ export class TasksService {
 
   }
 
-  async findAll(): Promise<Task[]> {
+  async findAll(paginationQueryDto: PaginationQueryDto): Promise<Task[]> {
+    
+    const {page=1,limit=10}=paginationQueryDto;
+    const skip=(page - 1) * limit;
 
-    return this.taskModel.find().exec();
+    return this.taskModel.find()
+        .skip(skip)
+        .limit(limit)
+        .exec();
 
   }
 
