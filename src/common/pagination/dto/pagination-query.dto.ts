@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsIn, IsOptional, IsPositive } from 'class-validator';
+import { IsEnum, IsIn, IsOptional, IsPositive } from 'class-validator';
 
 export class PaginationQueryDto{
 
@@ -21,5 +21,11 @@ export class PaginationQueryDto{
     @IsOptional()
     @IsIn(['asc','desc'])
     sortOrder?: 'asc' | 'desc';
+
+    @IsOptional()
+    @IsEnum(['Pending', 'InProgress', 'Completed'], {
+        message: 'Status must be one of: Pending, InProgress, Completed',
+    })
+  status?: string;
 
 }

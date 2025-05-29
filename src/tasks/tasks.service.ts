@@ -24,12 +24,19 @@ export class TasksService {
         page=1,
         limit=10,
         sortBy='createdAt',
-        sortOrder='desc'
+        sortOrder='desc',
+        status
     }=paginationQueryDto;
+
     const skip=(page - 1) * limit;
 
+    const filter: any = {};
+        if (status) {
+            filter.status = status;
+    }
+
     return this.taskModel
-        .find()
+        .find(filter)
         .sort({[sortBy]: sortOrder === 'asc' ? 1 : -1})
         .skip(skip)
         .limit(limit)
